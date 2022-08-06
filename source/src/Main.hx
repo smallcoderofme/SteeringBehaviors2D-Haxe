@@ -12,7 +12,6 @@ import com.behaviours.PursueEvadeTest;
 import com.behaviours.PathTest;
 import com.behaviours.FlockTest;
 import com.behaviours.FleeTest;
-import motion.Actuate;
 import com.foed.SteeredVehicle;
 import utils.Stats;
 import hxd.res.Font;
@@ -22,9 +21,6 @@ import com.behaviours.AvoidTest;
 import hxd.Res;
 import h2d.Bitmap;
 import com.behaviours.ArriveTest;
-import com.AppConfig;
-import com.AbsClass.Vec2D;
-import com.AbsClass.SubClass;
 import com.foed.Vector2D;
 
 #if actuate
@@ -39,15 +35,8 @@ class Main extends hxd.App {
         hxd.Res.initEmbed();
         new Main();
 	} 
-    public inline function getTime():Float {
-        return Timer.stamp();
-    }
     override function init() {
         stats = new Stats(s2d);
-
-        #if actuate
-        @:privateAccess SimpleActuator.getTime = getTime;
-        #end
 
         // var vec1 = new SubClass(3, 4);
         // var vec2 = new SubClass(5, 6);
@@ -123,8 +112,6 @@ class Main extends hxd.App {
         var bitmap: Bitmap = new Bitmap(Res.rect.toTile(), s2d);
         bitmap.x = 50;
         bitmap.y = 50;
-
-        trace(Compiler.getDefine("windowSize"));
     }
 
     var arriveTest: ArriveTest;
@@ -149,16 +136,7 @@ class Main extends hxd.App {
     // private var _numCircles:Int = 10;
 
     override function update(dt:Float) {
-        stats.update();
-        
-        #if actuate
-		#if hl
-		@:privateAccess SimpleActuator.stage_onEnterFrame();
-		#else
-		@:privateAccess SimpleActuator.stage_onEnterFrame(dt);
-		#end
-		#end
-        
+        stats.update();    
 		// arriveTest.update(mousePos.x, mousePos.y);
         // avoidTest.update();
         // fleeTest.update(mousePos.x, mousePos.y);
